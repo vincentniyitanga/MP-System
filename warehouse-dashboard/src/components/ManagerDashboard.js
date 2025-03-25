@@ -1,47 +1,150 @@
 // src/components/ManagerDashboard.js
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import ProductList from './ProductList';
-import StockMovements from './StockMovements';
-import OrderApproval from './OrderApproval';
-import Notifications from './Notifications';
+import React from "react";
+import {
+  Dashboard as DashboardIcon,
+  Inventory as InventoryIcon,
+  Assessment as AssessmentIcon,
+  People as PeopleIcon,
+  ShoppingCart as OrdersIcon,
+  Settings as SettingsIcon,
+} from "@mui/icons-material";
+import { Grid, Paper, Typography } from "@mui/material";
+import DashboardLayout from "./DashboardLayout";
 
-const predefinedProducts = [
-  { productName: 'Skol 65 cl', stockQuantity: 63, empties: 1125 },
-  { productName: 'Skol 50 cl', stockQuantity: 60, empties: 54 },
-  { productName: 'Skol 33 cl', stockQuantity: 16, empties: 1515 },
-  { productName: 'Gatanu 65 cl', stockQuantity: 200, empties: 2287 },
-  { productName: 'Gatanu 50 cl', stockQuantity: 142, empties: 240 },
-  { productName: 'Lager 65 cl', stockQuantity: 204, empties: 0 },
-  { productName: 'Lager 50 cl', stockQuantity: 33, empties: 432 },
-  { productName: 'Lager 33 cl', stockQuantity: 55, empties: 962 },
-  { productName: 'Panache 65 cl', stockQuantity: 8, empties: 0 },
-  { productName: 'Panache 33 cl', stockQuantity: 79, empties: 372 },
-  { productName: 'Virunga 50 cl mist', stockQuantity: 28, empties: 254 },
-  { productName: 'Virunga 33 cl mist', stockQuantity: 14, empties: 216 },
-  { productName: 'Virunga 65 cl gold', stockQuantity: 144, empties: 304 },
-  { productName: 'Virunga 50 cl gold', stockQuantity: 0, empties: 0 },
-  { productName: 'Virunga 33 cl gold', stockQuantity: 21, empties: 0 },
-  { productName: 'Virunga Silver', stockQuantity: 10, empties: 57 },
-  { productName: 'Mineral Water', stockQuantity: 0, empties: 0 },
-  { productName: 'Pulse', stockQuantity: 24, empties: 72 },
+const menuItems = [
+  {
+    text: "Dashboard",
+    icon: <DashboardIcon />,
+    onClick: () => console.log("Dashboard clicked"),
+  },
+  {
+    text: "Inventory",
+    icon: <InventoryIcon />,
+    onClick: () => console.log("Inventory clicked"),
+  },
+  {
+    text: "Orders",
+    icon: <OrdersIcon />,
+    onClick: () => console.log("Orders clicked"),
+  },
+  {
+    text: "Staff",
+    icon: <PeopleIcon />,
+    onClick: () => console.log("Staff clicked"),
+  },
+  {
+    text: "Reports",
+    icon: <AssessmentIcon />,
+    onClick: () => console.log("Reports clicked"),
+  },
+  {
+    text: "Settings",
+    icon: <SettingsIcon />,
+    onClick: () => console.log("Settings clicked"),
+  },
 ];
 
+const StatCard = ({ title, value, description }) => (
+  <Paper
+    sx={{
+      p: 3,
+      display: "flex",
+      flexDirection: "column",
+      height: 140,
+    }}
+  >
+    <Typography component="h2" variant="h6" color="primary" gutterBottom>
+      {title}
+    </Typography>
+    <Typography component="p" variant="h4">
+      {value}
+    </Typography>
+    <Typography color="text.secondary" sx={{ flex: 1 }}>
+      {description}
+    </Typography>
+  </Paper>
+);
+
 function ManagerDashboard() {
-  const [products, setProducts] = useState(predefinedProducts);
-
-  useEffect(() => {
-    // Optionally fetch real-time data here if the backend API is connected
-  }, []);
-
   return (
-    <div className="manager-dashboard">
-      <h1>Manager Dashboard</h1>
-      <Notifications />
-      <ProductList products={products} setProducts={setProducts} />
-      <StockMovements />
-      <OrderApproval />
-    </div>
+    <DashboardLayout menuItems={menuItems} title="Manager Dashboard">
+      <Grid container spacing={3}>
+        {/* Stock Overview */}
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Total Stock"
+            value="12,500"
+            description="Total beer crates in warehouse"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Pending Orders"
+            value="8"
+            description="Orders awaiting approval"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Low Stock Items"
+            value="3"
+            description="Products below threshold"
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <StatCard
+            title="Today's Deliveries"
+            value="15"
+            description="Scheduled deliveries"
+          />
+        </Grid>
+
+        {/* Recent Activity Section */}
+        <Grid item xs={12}>
+          <Paper sx={{ p: 2 }}>
+            <Typography
+              component="h2"
+              variant="h6"
+              color="primary"
+              gutterBottom
+            >
+              Recent Activity
+            </Typography>
+            {/* Add activity feed component here */}
+          </Paper>
+        </Grid>
+
+        {/* Stock Movement Chart */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ p: 2 }}>
+            <Typography
+              component="h2"
+              variant="h6"
+              color="primary"
+              gutterBottom
+            >
+              Stock Movement
+            </Typography>
+            {/* Add chart component here */}
+          </Paper>
+        </Grid>
+
+        {/* Alerts and Notifications */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 2 }}>
+            <Typography
+              component="h2"
+              variant="h6"
+              color="primary"
+              gutterBottom
+            >
+              Alerts
+            </Typography>
+            {/* Add alerts component here */}
+          </Paper>
+        </Grid>
+      </Grid>
+    </DashboardLayout>
   );
 }
 
